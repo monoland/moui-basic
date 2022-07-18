@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "serve": "vue-cli-service serve",
+        "serve": "vue-cli-service serve --host=hmr.moui-basic.test --https",
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint",
         "watch": "vue-cli-service build --mode development --watch"
@@ -30,7 +30,6 @@
         "@vue/cli-plugin-pwa": "~4.5.15",
         "@vue/cli-plugin-router": "~4.5.15",
         "@vue/cli-service": "~4.5.15",
-        "@vue/composition-api": "^1.7.0",
         "babel-eslint": "^10.1.0",
         "copy-webpack-plugin": "6.4.0",
         "eslint": "^6.7.2",

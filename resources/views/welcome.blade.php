@@ -29,6 +29,7 @@
     <noscript>
         <strong>We're sorry but MONOLAND doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+
     <div id="monoland"></div>
     <!-- built files will be auto injected -->
     <script type="text/javascript" src="/js/chunk-vendors.js"></script>
