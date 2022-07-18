@@ -68,9 +68,9 @@ class Storage
         return this.store.removeItem(key);
     }
 
-    get authorized()
+    get authenticated()
     {
-        return this.store.hasItem('authorized') ? this.store.getItem('authorized') : false;
+        return this.store.hasItem('authenticated') ? this.store.getItem('authenticated') : false;
     }
 
     get modules()

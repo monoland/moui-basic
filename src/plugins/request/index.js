@@ -1,13 +1,16 @@
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+
 const RequestInstance = (url, options) => {
     let baseURL = options && ('baseURL' in options) ? options.baseURL : null;
+
     // baseURL
     if (!baseURL) {
         if (localStorage.getItem('baseURL') !== null) {
             baseURL = JSON.parse(window.atob(localStorage.getItem('baseURL')));
         } else {
-            baseURL = `${ process.env.VUE_APP_PROTOCOL + process.env.VUE_APP_BACKEND + process.env.VUE_APP_DOMAIN }`;
+            baseURL = `${ process.env.VUE_APP_PROTOCOL + process.env.VUE_APP_DOMAIN }`;
         }
     }
 
@@ -23,7 +26,7 @@ const RequestInstance = (url, options) => {
     }
 
     // withCredentials
-    let withCredentials = options && ('withCredentials' in options) ? options.withCredentials : true;
+    // let withCredentials = options && ('withCredentials' in options) ? options.withCredentials : true;
 
     let headers = options && ('headers' in options) ? options.headers : null;
     // header
@@ -60,7 +63,7 @@ const RequestInstance = (url, options) => {
                 headers: headers,
                 params: params,
                 responseType: responseType,
-                withCredentials: withCredentials
+                // withCredentials: withCredentials
             });
 
             break;
@@ -70,7 +73,7 @@ const RequestInstance = (url, options) => {
                 baseURL: baseURL,
                 headers: headers,
                 responseType: responseType,
-                withCredentials: withCredentials
+                // withCredentials: withCredentials
             });
 
             break;
@@ -80,7 +83,7 @@ const RequestInstance = (url, options) => {
                 baseURL: baseURL,
                 headers: headers,
                 responseType: responseType,
-                withCredentials: withCredentials
+                // withCredentials: withCredentials
             });
 
             break;
@@ -90,7 +93,7 @@ const RequestInstance = (url, options) => {
                 baseURL: baseURL,
                 headers: headers,
                 responseType: responseType,
-                withCredentials: withCredentials
+                // withCredentials: withCredentials
             });
 
             break;
@@ -101,7 +104,7 @@ const RequestInstance = (url, options) => {
                 headers: headers,
                 params: params,
                 responseType: responseType,
-                withCredentials: withCredentials
+                // withCredentials: withCredentials
             });
 
             break;

@@ -55,41 +55,17 @@ const router = new VueRouter({
  */
 router.beforeEach((to, _from, next) => {
     if (to.matched.some((r) => r.meta.requiredAuth)) {
-        if (!StorageInstance.authorized) {
-            next({ name: process.env.VUE_APP_PAGE_LOGIN });
+        if (!StorageInstance.authenticated) {
+            next({ name: 'default-landing' });
         } else {
-            if (! StorageInstance.secured && to.name !== 'myaccount-password') {
-                next({ name: process.env.VUE_APP_PAGE_PASSWORD });
-            } else if (StorageInstance.secured && to.name === 'myaccount-password') {
-                next({ name: process.env.VUE_APP_PAGE_DASHBOARD });
-            } else {
-                next();
-            }
+            next();
         }
     } else {
-        if ((to.name === 'default-landing' || to.name === process.env.VUE_APP_PAGE_LOGIN) && StorageInstance.authorized) {
+        if (to.name === 'default-landing' && StorageInstance.authenticated) {
             next({ name: process.env.VUE_APP_PAGE_DASHBOARD });
         } else {
             next();
         }
-    }
-});
-
-router.afterEach((to, from) => {
-    if (to.matched.some((r) => r.meta.requiredAuth) && 
-        StorageInstance.authorized &&
-        ('name' in to && to.name && to.name.includes('dashboard')) && 
-        ('name' in from && from.name && from.name.includes(process.env.VUE_APP_PAGE_DASHBOARD)) 
-    ) {
-        StorageInstance.validated = false;
-        
-        StorageInstance.modules.forEach(module => {
-            if (module.pages.find(p => p.slug === to.name)) {
-                StorageInstance.validated = true;
-            }
-        });
-    } else {
-        StorageInstance.validated = false;
     }
 });
 

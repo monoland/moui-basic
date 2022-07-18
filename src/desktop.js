@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueCompositionAPI, { markRaw } from '@vue/composition-api';
+import { markRaw } from 'vue';
 import { createPinia, PiniaVuePlugin } from 'pinia';
 import App from './App.vue';
 import vuetify from '@plugins/vuetify';
@@ -9,7 +9,6 @@ import StoragePlugin, { StorageInstance } from '@plugins/storage';
 import registerWorker from '@workers/register-sw';
 
 Vue.config.productionTip = false;
-Vue.use(VueCompositionAPI);
 Vue.use(PiniaVuePlugin);
 Vue.use(RequestPlugin);
 Vue.use(StoragePlugin);

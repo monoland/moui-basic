@@ -1,9 +1,11 @@
 <template>
-    <router-view v-if="isFontLoaded"
-    ></router-view>
+    <v-scroll-y-transition mode="out-in">
+        <router-view v-if="isFontLoaded"
+        ></router-view>
 
-    <moui-loading v-else
-    ></moui-loading>
+        <moui-loading v-else
+        ></moui-loading>
+    </v-scroll-y-transition>
 </template>
 
 <script>

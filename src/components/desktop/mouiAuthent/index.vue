@@ -20,33 +20,100 @@
 
                         <v-card-text>
                             <v-form>
-                                <v-text-field
-                                    autocomplete="off"
-                                    label="Alamat email"
-                                    placeholder="simasten@bantenprov"
-                                    ref="email"
-                                    outlined
-                                ></v-text-field>
+                                <v-row no-gutters>
+                                    <v-col cols="12">
+                                        <v-text-field
+                                            v-model="email"
+                                            :disabled="disabled"
+                                            autocomplete="off"
+                                            label="Alamat email"
+                                            placeholder="simasten@bantenprov"
+                                            ref="email"
+                                            outlined
+                                        ></v-text-field>
+                                    </v-col>
 
-                                <v-text-field
-                                    autocomplete="off"
-                                    label="Masukkan sandi Anda"
-                                    ref="password"
-                                    outlined
-                                ></v-text-field>
+                                    <v-col cols="12">
+                                        <v-text-field
+                                            v-model="password"
+                                            :disabled="disabled"
+                                            :type="visiblePassword ? 'text' : 'password'"
+                                            autocomplete="off"
+                                            label="Masukkan sandi Anda"
+                                            ref="password"
+                                            hide-details
+                                            outlined
+                                            @keydown.enter.prevent="attemptLogin"
+                                        ></v-text-field>
+                                    </v-col>
 
-                                <v-btn block color="primary" depressed>signin</v-btn>
+                                    <v-col cols="12">
+                                        <v-checkbox 
+                                            :disabled="disabled"
+                                            class="mt-2" 
+                                            label="Tampilkan sandi" 
+                                            v-model="visiblePassword"
+                                        ></v-checkbox>
+                                    </v-col>
+                                </v-row>      
+
+                                <v-btn block color="primary" depressed @click="attemptLogin">signin</v-btn>
                             </v-form>
                         </v-card-text>
                     </v-card>
                 </v-col>
             </v-row>
         </v-main>
+
+        <moui-snackbar></moui-snackbar>
     </v-app>
 </template>
 
 <script>
+import { useSystemStore } from '@stores/systemStore';
+
 export default {
     name: 'moui-authent',
+
+    setup() {
+        const systemStore = useSystemStore();
+
+        return {
+            systemStore
+        }
+    },
+
+    data:() => ({
+        email: null,
+        password: null,
+        disabled: false,
+        visiblePassword: false
+    }),
+
+    methods: {
+        attemptLogin() {
+            this.systemStore.$http('/login', {
+                method: 'POST',
+                params: {
+                    email: this.email,
+                    password: this.password, 
+                }
+            })
+            .then(() => {
+                this.$storage.setItem('authenticated', true);
+                this.$router.push({ name: process.env.VUE_APP_PAGE_DASHBOARD });
+            })
+            .catch(({ status, message }) => {
+                if (status === 419) {
+                    this.systemStore.$http('/sanctum/csrf-cookie', {
+                        method: 'GET',
+                    });
+                }
+                this.systemStore.$snackbar({
+                    text: message
+                })
+            });
+        }
+    }
 }
 </script>
